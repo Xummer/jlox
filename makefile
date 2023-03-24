@@ -1,19 +1,65 @@
-JFLAGS = -g
-JC = javac
+##
+# source directory
+##
+SRC_DIR := lox
+
+##
+# output directory
+##
+OUT_DIR := out
+
+##
+# package name
+##
+PAC_DIR := com/craftinginterpreters/lox
+
+##
+ENTRY_POINT := com.craftinginterpreters.lox.Lox
+
+##
+# sources
+##
+SRCS := $(wildcard $(SRC_DIR)/*.java)
+
+##
+# classes
+## 
+CLS := $(SRCS:$(SRC_DIR)/%.java=$(OUT_DIR)/%.class)
+
+##
+# compiler and compiler flags
+##
+JC := javac
+JCFLAGS := -d $(OUT_DIR)/ -cp $(SRC_DIR)/
+
+##
+# suffixes
+##
 .SUFFIXES: .java .class
-.java.class:
-		$(JC) $(JFLAGS) $*.java
 
-# This uses the line continuation character (\) for readability
-# You can list these all on a single line. separated by a space insted.
-# If your version of make can't handle the leading tabs on each
-# line, just remove them (these are also just added for readability).
-CLASSES = \
-		  HelloWorld.java
+##
+# targets that do not produce output files
+##
+.PHONY: build all clean 
 
-default: classes
+##
+# default target(s)
+##
 
-classes: $(CLASSES:.java=.class)
+build:
+	$(JC) $(JCFLAGS) $(SRC_DIR)/*.java
 
+run:
+	java -cp $(OUT_DIR) $(ENTRY_POINT)
+
+all: $(CLS)
+
+# 这里会重复编译需要调整
+$(CLS): $(SRCS)
+	$(JC) $(JCFLAGS) $^
+
+##
+# clean up any output files
+##
 clean:
-		$(RM) *.class
+	$(RM) $(OUT_DIR)/$(PAC_DIR)/*.class
