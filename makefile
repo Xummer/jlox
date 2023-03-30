@@ -18,6 +18,10 @@ PAC_ID := com.craftinginterpreters
 ##
 ENTRY_POINT := $(PAC_ID).$(SRC_DIR).Lox
 
+##
+PRINT_ENTRY_POINT := $(PAC_ID).$(SRC_DIR).AstPrinter
+
+
 TOOL_DIR := tool
 
 TOOL_ENTRY_POINT := $(PAC_ID).$(TOOL_DIR).GenerateAst
@@ -57,6 +61,9 @@ build:
 
 run:
 	java -cp $(OUT_DIR) $(ENTRY_POINT)
+
+print:
+	java -cp $(OUT_DIR) $(PRINT_ENTRY_POINT)
 
 tool: 
 	$(JC) -d $(OUT_DIR)/ -cp $(TOOL_DIR)/ $(TOOL_DIR)/*.java
