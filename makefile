@@ -11,10 +11,16 @@ OUT_DIR := out
 ##
 # package name
 ##
-PAC_DIR := com/craftinginterpreters/lox
+PAC_DIR := com/craftinginterpreters
+
+PAC_ID := com.craftinginterpreters
 
 ##
-ENTRY_POINT := com.craftinginterpreters.lox.Lox
+ENTRY_POINT := $(PAC_ID).$(SRC_DIR).Lox
+
+TOOL_DIR := tool
+
+TOOL_ENTRY_POINT := $(PAC_ID).$(TOOL_DIR).GenerateAst
 
 ##
 # sources
@@ -40,7 +46,7 @@ JCFLAGS := -d $(OUT_DIR)/ -cp $(SRC_DIR)/
 ##
 # targets that do not produce output files
 ##
-.PHONY: build all clean 
+.PHONY: build all tool clean 
 
 ##
 # default target(s)
@@ -52,6 +58,12 @@ build:
 run:
 	java -cp $(OUT_DIR) $(ENTRY_POINT)
 
+tool: 
+	$(JC) -d $(OUT_DIR)/ -cp $(TOOL_DIR)/ $(TOOL_DIR)/*.java
+
+exprgen:
+	java -cp $(OUT_DIR) $(TOOL_ENTRY_POINT) $(SRC_DIR)
+
 all: $(CLS)
 
 # 这里会重复编译需要调整
@@ -62,4 +74,5 @@ $(CLS): $(SRCS)
 # clean up any output files
 ##
 clean:
-	$(RM) $(OUT_DIR)/$(PAC_DIR)/*.class
+	$(RM) $(OUT_DIR)/$(PAC_DIR)/*/*.class
+	$(RM) $(SRC_DIR)/Expr.java
