@@ -61,6 +61,7 @@ public class Lox {
 
         // Print AST.
         // System.out.println(new AstPrinter().print(expression));
+        // System.out.println(new AstRpnPrinter().print(expression));
     }
 
     static void error(int line, String message) {
