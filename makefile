@@ -83,3 +83,4 @@ $(CLS): $(SRCS)
 clean:
 	$(RM) $(OUT_DIR)/$(PAC_DIR)/*/*.class
 	$(RM) $(SRC_DIR)/Expr.java
+	$(RM) $(SRC_DIR)/Stmt.java
